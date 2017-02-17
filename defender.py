@@ -12,7 +12,6 @@ from random import sample
 # 5. Town distance (0-1)
 # 6. Water distance (0-1)
 # 7. Animal presence (binary)
-# (8. Adversary presence - HIDDEN TO DEFENDER MODEL NETWORK)
 
 NUM_GRIDS = 1
 GRID_LEN = 10
@@ -54,7 +53,7 @@ for grid in grids:
 
 	# randomly pick some cells with animals to have adversaries as well
 	adversary_locations = sample(animal_locations, NUM_ADVERSARIES)
-
+	# TODO: add adversaries as a feature in the grid? (keep it hidden to the defender_model)
 
 # flatten each grid into a 1D vector
 grids = grids.reshape(NUM_GRIDS, GRID_LEN*GRID_HEIGHT*NUM_FEATURES)
