@@ -12,11 +12,11 @@ If the defender picks locations that are close to poachers' locations,
 then the defender gets a reward.
 
 ### Methods Tested:
-* ConvNet: Model the defender network using a ConvNet from 2D park grid to action vector
-* Vanilla Policy Gradient: Update the defender network using the game reward as a gradient signal
-* DDPG (Deep Deterministic Policy Gradient): Model the defender using two complementary neural networks:
+* **ConvNet:** Model the defender network using a ConvNet from 2D park grid to action vector
+* **Vanilla Policy Gradient:** Update the defender network using the game reward as a gradient signal
+* **DDPG** (Deep Deterministic Policy Gradient): Model the defender using two complementary neural networks:
 one actor network (to map from game state to action), and one critic network (to judge the goodness of the action)
-* Multi-Agent RL: Train reinforcement learning models for both the defenders (i.e. anti-poaching patrollers) and attackers (i.e. poachers), then see what happens
+* **Multi-Agent RL**: Train reinforcement learning models for both the defenders (i.e. anti-poaching patrollers) and attackers (i.e. poachers), then see what happens
 
 ### Built With:
 * Python 3.5 (Anaconda build)
