@@ -1,0 +1,45 @@
+### SETUP for actor-critic gradient update code #####
+state - <7 feature vector>
+Action ? <5 pairs of mu and sigma for the defenders>
+** -- to be explored further
+1. #setup for actor and critic networks(initialized with random weights)
+	#copy the setup into a target network for both actor and critic (gives stability** so to be used for now)
+2. # setup for the replay buffer <s_t,a_t,r_t>
+	s_t = <7 feature vectors>[initially empty lists]
+	a_t = <5 mu,sigma pairs>
+	r_t = reward computed from sample
+	Also write a function that will compute the noise**
+3. for i = 1:10000 
+		s_t = grid_vec
+		a_t = actor_model.predict(s_t) 
+		Def_locs = sample(a_t) [select 5 points for defender]
+		adversary_locs = adv_sample(mu_a,sigma_a) [selects 15 spots for the adversary]
+		r_t = calc_reward(def_los,adversary_locs)
+		(play 100 games between defender and adversary)
+		buffer.add(s_t,a_t,r_t,s_t+1)
+		
+		#get N elements from the buffer
+		batch = buffer.get_elements(n);[ get_elements ** is to be written ] 
+		old_states = np.asarray([e[0] for e in batch])
+		actions = np.asarray([e[1] for e in batch])
+		rewards = np.asarray([e[2] for e in batch])
+		
+		
+		y_t = np.asarray(actions.size) #used to compute the q-values
+		for k = 1:n
+			y_t[k] = rewards[k]+gamma*critic.target_model.predict(new_states,actor.target_model.predict(new_states));
+
+		critic.model.train_on_batch([states,actions],y_t); ### It would be better to customize the critic loss function
+		[So my y_true = y_t and y_pred = critic_model_output([states,actions])]
+		
+		### to think about policy update procedure from paper ####
+		a_for_grad = actor.model.predict(old_states) #get the predictions for old_states
+		grads = critic.gradients(old_states, a_for_grad) ****
+		actor.train(states, grads) ***
+		actor.target_train()
+        critic.target_train()        
+
+                
+		
+		
+		

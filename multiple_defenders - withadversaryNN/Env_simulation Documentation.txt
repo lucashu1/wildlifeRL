@@ -1,0 +1,111 @@
+Env_simulation Documentation
+March 14, 2017
+Subhasree Sengupta, Lucas Hu
+
+
+------------------------ CLASS ATTRIBUTES -------------------------
+
+grid_len: Length of grid (assumed to be square)
+num_features: Number of features (fed into network)
+
+num_animals: total number of animals to be placed in grid
+num_adversaries: total number of adversaries to be placed
+num_defenders: total number of defenders to be placed
+
+animal_feature_index: index of animal density feature (last feature)
+num_cells: number of cells in grid(grid_len ^ 2)
+
+animal_coords: list of animal coordinates (row, col) without repeats
+defender_coords: list of defender coordinates (row, col)
+adversary_coords: list of adversary coordinates (row, col)
+
+animal_counts: 2D array storing number of animals in each cell
+adversary_one_hot: 2D array showing which cells have adversaries
+defender_one_hot: 2D array showing which cells have defenders
+
+grid: dimension grid_len * grid_len * num_features. Stores grid features
+
+adversary_mu_x: uniform random num between 0-1
+adversary_sigma_x: uniform random num between 0-1
+adversary_mu_y: uniform random num between 0-1
+adversary_sigma_y: uniform random num between 0-1
+
+animal_mu_x: uniform random num between 0-1
+animal_sigma_x: uniform random num between 0-1
+animal_mu_y: uniform random num between 0-1
+animal_sigma_y: uniform random num between 0-1
+
+
+------------------------ CLASS METHODS -------------------------
+
+(Methods have no parameters or return values unless explicitly stated)
+
+__init__(grid_len=10, num_features=7, num_animals=75, num_adversaries=15, num_defenders=5):
+Parameters: grid length, num features, num animals, num adversaries, num defenders
+Initialize class attributes, including empty lists/arrays
+
+clear_animals():
+Reset animal_coords, animal_one_hot, animal density feature (in grid)
+
+clear_defenders():
+Reset defender_coords, defender_one_hot
+
+clear_adversaries():
+Reset adversary_coords, adversary_one_hot
+
+reset():
+Reset animals, defenders, and adversaries
+
+place_animals():
+Sample points from the animal mu_sigma and scale up to fit grid
+If the point is within bounds, place an animal there
+Repeat until desired number of animals have been placed
+Update animal_coords, animal_counts, animal density feature
+Return animal_coords list
+
+create_episode():
+Randomly generate grid features
+Place animals in grid
+Randomly generate mu_sigmas for animals, adversaries
+Return tuple (grid, animal_coords)
+
+place_adversaries():
+Sample points from the adversary mu_sigma and scale up to fit grid
+If the point is within bounds and there isn't already an adversary, place adversary there
+Repeat until desired number of adversaries have been placed
+Update adversary_coords, adversary_one_hot
+Return tuple (defender_coords, defender_one_hot)
+
+place_defenders(mu_sigmas):
+Parameters: 1D list of mu_sigma values for defender(s) - outputted from defender NN
+	Format per defender: mu_x, sigma_x, mu_y, sigma_y
+Sample points from the defender mu_sigma(s) and scale up to fit grid
+If the point is within bounds and there isn't already a defender, place defender there
+Repeat until desired number of defenders have been placed
+Update adversary_coords, adversary_one_hot
+Return tuple (defender_coords, defender_one_hot)
+
+R_a():
+Calculate defenders' reward for defending against adversaries
+For each defender: 
+	Look at how many adversaries are near (1 square away), how many are far
+	Individual reward = adversaries near - adversaries far
+		(scaled by number of animals in those cells)
+Return sum of individual defender rewards divided by num_adversaries
+
+R_c()
+Calculate defenders' reward for protecting targets (animals)
+For each defender: 
+	Look at how many targets are near (1 square away), how many are far
+	Individual reward = targets near - targets far (not scaled)
+Return sum of individual defender rewards divided by num_targets
+
+calc_reward():
+Return overall defender reward:(R_a + R_c) / num_defenders
+
+grid_vector():
+Return flattened vector of grid features to pass into defender NN
+Vector length: grid_len * grid_len * num_features
+
+print_adversary_params():
+Print adversary mu_sigmas to console

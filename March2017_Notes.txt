@@ -1,0 +1,47 @@
+----------------- 3.21.17 -----------------
+
+1. TENSORFLOW:
+gradient buffer stuff
+
+2. ENV_STACKELBERG
+Make copy of env_simulation.py in multiple_defenders
+Call it env_stackelberg
+R_a: only give reward if defender in same cell (coverage radius = 0)
+Only return R_a
+
+Remove no same cell constraint
+Multiple defenders/adversaries in 1 cell --> treat as just 1 defender/adversary
+
+
+----------------- 3.10.17 -----------------
+
+	# New reward (R_a): DONE
+	# For each defender: Iterate over all adversaries
+		# Num. adversaries close to that defender - Num. adversaries not close to it
+		# cell's reward (or penalty) = number of animals in that cell w/ adversary
+		# Sum divided by number of adversaries
+
+	# R_c: DONE
+		# For each defender: Iterate over all targets
+		# If covering target, +1
+		# If not covering target, -1
+		# Sum divided by number of targets
+
+	# PLots: matplotlib - DONE
+		# Avg reward per timestep within one episode
+			# 5 episodes --> 5 graphs
+		# Make this a new class?
+
+	# Copy folder --> "Simple Gradient Update Multiple Defenders"
+	# Try same thing with 5 defenders
+	# Reward: (R_a1 + R_c1 + R_a1 + R_c2 + ... R_a5 + R_c5) / num_defenders
+	# R_a is divided by num. adversaries
+	# R_c is divided by num. targets
+
+	# DOCUMENTATION: separate file describing what functions do what
+		# input, output, how it works, etc.
+
+	# ACTION ITEMS:
+		# Change reward (mainly R_a)
+		# Add multiple defender case (separate folder)
+		# Generate plots
