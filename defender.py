@@ -70,8 +70,14 @@ def place_animals(count):
 
 	return cells
 
+
 animal_cells = place_animals(NUM_ANIMALS)
 print("Animal cells: ", animal_cells)
+
+# randomly pick some cells with animals to have adversaries as well
+# adversary_locations = sample(animal_locations, NUM_ADVERSARIES)
+# TODO: add adversaries as a feature in the grid? (keep it hidden to the defender_model)
+
 
 
 
