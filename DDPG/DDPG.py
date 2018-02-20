@@ -10,6 +10,7 @@ from Actor import Actor
 from Critic import Critic
 from ReplayBuffer import ReplayBuffer
 from Reward_chart import Reward_chart
+import csv
 
 ### TODO - 5/22/17 ###
 # (Extra testing)
@@ -54,6 +55,10 @@ def_avg_coords = np.zeros(NUM_DEFENDERS*2)
 
 chart = Reward_chart()
 epsilon = EPSILON_INIT # for epsilon-greedy exploration
+
+losses = []
+loss_file = open('critic_loss.csv', 'w') 
+loss_writer = csv.DictWriter(loss_file, fieldnames=['episode', 'avg_reward', 'critic_loss'])
 
 ### DDPG Algorithm ###
 for episode in range(0, MAX_EPISODES):
@@ -109,6 +114,8 @@ for episode in range(0, MAX_EPISODES):
 	# print("Target q values: ", target_q_values)
 	y_t = rewards_vector + GAMMA*target_q_values
 	loss = critic.model.train_on_batch([states,actions], y_t)
+	losses.append(loss)
+	loss_writer.writerow({'episode':episode, 'avg_reward':r_t, 'critic_loss':loss}) # record losses
 
 	# Update actor
 	a_for_grad = actor.model.predict(states)
@@ -136,6 +143,7 @@ for episode in range(0, MAX_EPISODES):
 	chart.add_timestep(episode, r_t)
 
 
+loss_file.close()
 chart.show_episode()
 
 
