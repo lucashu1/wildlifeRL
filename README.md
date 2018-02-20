@@ -18,6 +18,12 @@ then the defender gets a reward.
 one actor network (to map from game state to action), and one critic network (to judge the goodness of the action)
 * **Multi-Agent RL**: Train reinforcement learning models for both the defenders (i.e. anti-poaching patrollers) and attackers (i.e. poachers), then see what happens
 
+<p align="center">
+  <b>Sample DDPG Training Chart</b>
+  <br>
+  <img src="ddpg-critic-loss-chart.png" width="70%"/>
+</p>
+
 ### Built With:
 * Python 3.5 (Anaconda build)
 * Numpy/Scipy
